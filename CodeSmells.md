@@ -17,6 +17,8 @@
 9. Al igual que en el método poner, no se delega a funciones auxiliares.
 10. Nuevamente la segunda validación utiliza un getter innecesario
 11. Al momento de calcular el límite se utiliza el número 1000 de manera hardcodeada, y luego se vuelve a utilizar en la   excepción. Este monto podría ser extraído a una variable estática, para que en un futuro, ante la necesidad de cambiar el límite, sea una sola variable lo que haya que modificar.
+    
+#### General
 12. Dentro del método `getMontoExtraidoA` se realiza un filtrado para saber si es depósito y si es del dia de hoy, dicha responsabilidad debería corresponder a la clase de Movimiento.
 
 ## Clase Movimiento
