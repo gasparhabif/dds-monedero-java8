@@ -12,7 +12,7 @@ Tenés seis tareas:
 
  1. :fork_and_knife: Hacé un _fork_ de este repositorio (presionando desde Github el botón Fork)
  2. :arrow_down: Descargalo y construí el proyecto, utilizando `maven`
- 2. :nose: Identificá y anotá todos los _code smells_ que encuentres 
+ 2. :nose: [Identificá y anotá todos los _code smells_ que encuentres](CodeSmells.md) 
  3. :test_tube: Agregá los tests faltantes y mejorá los existentes. 
      * :eyes: Ojo: ¡un test sin ningún tipo de aserción está incompleto!
  4. :rescue_worker_helmet: Corregí smells, de a un commit por vez. 
