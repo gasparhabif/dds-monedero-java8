@@ -25,31 +25,24 @@ public class Cuenta {
   }
 
   public void poner(double cuanto) {
-    validarMontoPositivo(cuanto);
-    validarDepositosDiariosPermitidos();
-    agregarMovimiento(LocalDate.now(), cuanto, true);
+    realizarOperacion(cuanto, true);
   }
 
   public void sacar(double cuanto) {
+    realizarOperacion(cuanto, false);
+  }
+
+  private void realizarOperacion(double cuanto, boolean esDeposito){
     validarMontoPositivo(cuanto);
-    validarSaldoSuficiente(cuanto);
-    validarMontoDiario(cuanto);
-    agregarMovimiento(LocalDate.now(), cuanto, false);
-  }
 
-  private void validarMontoDiario(double cuanto) {
-    double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
-    double limite = MONTO_MAXIMO_EXTRACCION - montoExtraidoHoy;
-    if (cuanto > limite) {
-      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + MONTO_MAXIMO_EXTRACCION
-          + " diarios, límite: " + limite);
+    if (esDeposito){
+      validarDepositosDiariosPermitidos();
+    } else {
+      validarSaldoSuficiente(cuanto);
+      validarMontoDiario(cuanto);
     }
-  }
 
-  private void validarSaldoSuficiente(double cuanto) {
-    if (this.saldo - cuanto < 0) {
-      throw new SaldoMenorException("No puede sacar mas de " + this.saldo + " $");
-    }
+    agregarMovimiento(LocalDate.now(), cuanto, esDeposito);
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
@@ -73,6 +66,21 @@ public class Cuenta {
   private void validarMontoPositivo(double cuanto) {
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
+    }
+  }
+
+  private void validarMontoDiario(double cuanto) {
+    double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
+    double limite = MONTO_MAXIMO_EXTRACCION - montoExtraidoHoy;
+    if (cuanto > limite) {
+      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + MONTO_MAXIMO_EXTRACCION
+              + " diarios, límite: " + limite);
+    }
+  }
+
+  private void validarSaldoSuficiente(double cuanto) {
+    if (this.saldo - cuanto < 0) {
+      throw new SaldoMenorException("No puede sacar mas de " + this.saldo + " $");
     }
   }
 
