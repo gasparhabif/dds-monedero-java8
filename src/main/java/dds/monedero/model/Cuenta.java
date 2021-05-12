@@ -11,6 +11,8 @@ import java.util.List;
 
 public class Cuenta {
 
+  private final static int MAXIMO_DEPOSITOS_PERMITIDOS = 3;
+
   private double saldo = 0;
   private final List<Movimiento> movimientos = new ArrayList<>();
 
@@ -29,8 +31,8 @@ public class Cuenta {
   }
 
   private void validarDepositosDiariosPermitidos() {
-    if (this.movimientos.stream().filter(Movimiento::isDeposito).count() >= 3) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
+    if (this.movimientos.stream().filter(Movimiento::isDeposito).count() >= MAXIMO_DEPOSITOS_PERMITIDOS) {
+      throw new MaximaCantidadDepositosException("Ya excedio los " + MAXIMO_DEPOSITOS_PERMITIDOS + " depositos diarios");
     }
   }
 
