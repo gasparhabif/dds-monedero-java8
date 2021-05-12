@@ -29,7 +29,7 @@ public class Cuenta {
   }
 
   private void validarDepositosDiariosPermitidos() {
-    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
+    if (this.movimientos.stream().filter(Movimiento::isDeposito).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
   }
