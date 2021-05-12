@@ -32,15 +32,18 @@ public class Cuenta {
 
   public void sacar(double cuanto) {
     validarMontoPositivo(cuanto);
-
     validarSaldoSuficiente(cuanto);
+    validarMontoDiario(cuanto);
+    agregarMovimiento(LocalDate.now(), cuanto, false)
+  }
+
+  private void validarMontoDiario(double cuanto) {
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     double limite = MONTO_MAXIMO_EXTRACCION - montoExtraidoHoy;
     if (cuanto > limite) {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + MONTO_MAXIMO_EXTRACCION
           + " diarios, límite: " + limite);
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
   private void validarSaldoSuficiente(double cuanto) {
