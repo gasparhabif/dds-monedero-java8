@@ -26,8 +26,7 @@ public class Cuenta {
   public void poner(double cuanto) {
     validarMontoPositivo(cuanto);
     validarDepositosDiariosPermitidos();
-
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, true);
   }
 
   private void validarDepositosDiariosPermitidos() {
