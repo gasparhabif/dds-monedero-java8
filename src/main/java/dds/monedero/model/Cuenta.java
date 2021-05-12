@@ -29,24 +29,10 @@ public class Cuenta {
     agregarMovimiento(LocalDate.now(), cuanto, true);
   }
 
-  private void validarDepositosDiariosPermitidos() {
-    if (this.movimientos.stream().filter(Movimiento::isDeposito).count() >= MAXIMO_DEPOSITOS_PERMITIDOS) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + MAXIMO_DEPOSITOS_PERMITIDOS + " depositos diarios");
-    }
-  }
-
-  private void validarMontoPositivo(double cuanto) {
-    if (cuanto <= 0) {
-      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
-    }
-  }
-
   public void sacar(double cuanto) {
     validarMontoPositivo(cuanto);
 
-    if (getSaldo() - cuanto < 0) {
-      throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
-    }
+    validarSaldoSuficiente(cuanto);
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     double limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
@@ -54,6 +40,12 @@ public class Cuenta {
           + " diarios, límite: " + limite);
     }
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+  }
+
+  private void validarSaldoSuficiente(double cuanto) {
+    if (this.saldo - cuanto < 0) {
+      throw new SaldoMenorException("No puede sacar mas de " + this.saldo + " $");
+    }
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
@@ -66,6 +58,18 @@ public class Cuenta {
         .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
         .mapToDouble(Movimiento::getMonto)
         .sum();
+  }
+
+  private void validarDepositosDiariosPermitidos() {
+    if (this.movimientos.stream().filter(Movimiento::isDeposito).count() >= MAXIMO_DEPOSITOS_PERMITIDOS) {
+      throw new MaximaCantidadDepositosException("Ya excedio los " + MAXIMO_DEPOSITOS_PERMITIDOS + " depositos diarios");
+    }
+  }
+
+  private void validarMontoPositivo(double cuanto) {
+    if (cuanto <= 0) {
+      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
+    }
   }
 
   public List<Movimiento> getMovimientos() {
