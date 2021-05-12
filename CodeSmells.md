@@ -3,7 +3,7 @@
 
 ## Clase Cuenta
 1. El constructor que iguala saldo a 0 es innecesario, pues el saldo ya comienza en   0 y existe otro constructor para crear una cuenta con un monto específico.
-2. El método `setMovimientos` no se utiliza nunca, además no tiene demasiado sentido que la lista de movimientos sea mutable, ya que se utiliza como un historial de movimientos.
+2. El método `setMovimientos` no se utiliza nunca, además no tiene demasiado sentido que la lista de movimientos sea mutable, ya que se utiliza como un historial de movimientos. En este caso `movimientos` podria pasar a ser `final`
 3. Tanto `poner` como `sacar` tienen lógica bastante similar, se realizan validaciones con respecto a la operación, y luego se agrega un movimiento a la lista de movimientos. Podría simplificarse aplicando alguna de las estrategias vistas en clase.
 #### En el método `Poner`
 4. Duplicación de código, pues la validación de `cuanto <= 0` existe también en el método `sacar`.
