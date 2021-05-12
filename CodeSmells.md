@@ -8,7 +8,7 @@
 #### En el método `Poner`
 4. Duplicación de código, pues la validación de `cuanto <= 0` existe también en el método `sacar`.
 5. No se delega a funciones auxiliares, quedando así una complejidad innecesaria, donde se están cumpliendo múltiples funciones en lugar de una sola.
-6. La segunda validación esta utiliza un `getter` para una variable que es propia de la clase.
+6. La segunda validación utiliza un `getter` para una variable que es propia de la clase. Además el límite de depósitos esta hardcodeado, haciendo engorroso un cambio futuro.
 7. Delega el agregado de un movimiento a la clase Movimiento, sin demasiado sentido, pues esta vuelve a invocar a la clase Cuenta para agregarlo a la lista de movimientos, perteneciente a esta última clase.
 
 #### En el método `Sacar`
