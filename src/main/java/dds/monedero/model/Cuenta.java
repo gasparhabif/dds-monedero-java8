@@ -15,7 +15,6 @@ public class Cuenta {
   private List<Movimiento> movimientos = new ArrayList<>();
 
   public Cuenta() {
-    saldo = 0;
   }
 
   public Cuenta(double montoInicial) {
