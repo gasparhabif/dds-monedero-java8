@@ -33,16 +33,19 @@ public class Cuenta {
   }
 
   private void realizarOperacion(double cuanto, boolean esDeposito){
-    validarMontoPositivo(cuanto);
+    realizarValidaciones(cuanto, esDeposito);
+    this.saldo += esDeposito ? cuanto : -cuanto;
+    agregarMovimiento(LocalDate.now(), cuanto, esDeposito);
+  }
 
+  private void realizarValidaciones(double cuanto, boolean esDeposito) {
+    validarMontoPositivo(cuanto);
     if (esDeposito){
       validarDepositosDiariosPermitidos();
     } else {
       validarSaldoSuficiente(cuanto);
       validarMontoDiario(cuanto);
     }
-
-    agregarMovimiento(LocalDate.now(), cuanto, esDeposito);
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
@@ -52,7 +55,7 @@ public class Cuenta {
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> movimiento.fueDepositado(fecha))
+        .filter(movimiento -> movimiento.fueExtraido(fecha))
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
